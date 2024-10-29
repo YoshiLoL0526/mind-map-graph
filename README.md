@@ -15,8 +15,8 @@ A flexible and customizable Python library for creating beautiful mind maps usin
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/YoshiLoL0526/mind-map-graph.git
-cd mind-map-graph
+git clone https://github.com/YoshiLoL0526/python-mindmap.git
+cd python-mindmap
 ```
 
 2. Install the required dependencies:
