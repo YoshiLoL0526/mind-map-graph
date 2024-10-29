@@ -113,9 +113,7 @@ config = MindMapConfig(
 
 When you run the example code above, you'll get a mind map that looks like this:
 
-```
 ![Output example image](./project_planning.png)
-```
 
 ## API Reference
 
