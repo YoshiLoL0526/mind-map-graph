@@ -26,16 +26,16 @@ class NodeRenderer:
         Render a single node with its background and text.
         """
         is_root = level == -1
-        bar_height = self.config.text_bar_height * (1.8 if is_root else 0.5)
-
-        text_width = self.get_text_width(text, self._get_font_size(level))
+        bar_height = self.config.text_bar_height * (3 if is_root else 1.0)
+        text_width = self.get_text_width(text, self.get_font_size(level))
         
         if is_root:
             rect = FancyBboxPatch(
-                (position.x, position.y - bar_height/2),
-                text_width,
+                (position.x - self.config.text_padding,
+                 position.y - bar_height/2),
+                text_width + self.config.text_padding * 2,
                 bar_height,
-                boxstyle="round,pad=0.1,rounding_size=0.3",
+                boxstyle="round,pad=0.1,rounding_size=0.2",
                 facecolor='#182536',
                 edgecolor='none',
                 alpha=1,
@@ -43,8 +43,9 @@ class NodeRenderer:
             )
         else:
             rect = Rectangle(
-                (position.x, position.y - bar_height/2),
-                text_width,
+                (position.x - self.config.text_padding,
+                 position.y - bar_height/2),
+                text_width + self.config.text_padding * 2,
                 bar_height,
                 facecolor=color,
                 edgecolor='none',
@@ -53,31 +54,45 @@ class NodeRenderer:
             )
         self.ax.add_patch(rect)
         
-        self._render_text(position, text, level)
+        self._render_text(position, text, level, text_width, bar_height)
 
-    def _get_font_size(self, level: int) -> int:
+    def get_font_size(self, level: int) -> int:
         """Get font size based on node level"""
-        return 14 if level == -1 else 12
+        return self.config.max_font_size if level == -1 else self.config.min_font_size
 
-    def _render_text(self, position: Position, text: str, level: int) -> None:
+    def _render_text(self, position: Position, text: str, level: int, text_width: float, bar_height: float) -> None:
         """Render text for a node"""
         is_root = level == -1
-        y_offset = self.config.text_bar_height * (0.6 if not is_root else 0)
-        self.ax.text(
-            position.x + self.config.text_padding,
-            position.y + y_offset,
-            text,
-            horizontalalignment='left',
-            verticalalignment='center',
-            fontsize=self._get_font_size(level),
-            fontweight='bold' if is_root else 'normal',
-            color='white' if is_root else 'black',
-            zorder=3
-        )
+        
+        if is_root:
+            self.ax.text(
+                position.x + text_width/2,
+                position.y,
+                text,
+                horizontalalignment='center',
+                verticalalignment='center',
+                fontsize=self.get_font_size(level),
+                fontweight='bold',
+                color='white',
+                zorder=3
+            )
+        else:
+            y_offset = 0.3
+            self.ax.text(
+                position.x + text_width/2,
+                position.y + y_offset,
+                text,
+                horizontalalignment='center',
+                verticalalignment='bottom',
+                fontsize=self.get_font_size(level),
+                fontweight='normal',
+                color='black',
+                zorder=3
+            )
 
     def get_text_width(self, text: str, fontsize: int) -> float:
         """Calculate width of text given font size"""
         text_obj = Text(0, 0, text, fontsize=fontsize, figure=self.fig)
         bbox = text_obj.get_window_extent(self.renderer)
         bbox_data = bbox.transformed(self.ax.transData.inverted())
-        return bbox_data.width + self.config.text_padding * 2
+        return bbox_data.width

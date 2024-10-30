@@ -1,8 +1,6 @@
 import json
 
 from mindmap_lib import MindMap
-from mindmap_lib.core import MindMapConfig
-from mindmap_lib.rendering import EnhancedGradientScheme
 
 
 def create_sample_json():
@@ -117,22 +115,6 @@ def create_sample_json():
     return json.dumps(mind_map_data, indent=2)
 
 
-def create_custom_config():
-    """
-    Crea una configuración personalizada para el mapa mental.
-    """
-    return MindMapConfig(
-        width=24,                                   # Ancho mayor para más espacio
-        height=14,                                  # Alto mayor para más espacio
-        dpi=120,                                    # Mayor DPI para mejor resolución
-        x_limits=(-1.5, 22.5),                      # Límites X ajustados al nuevo ancho
-        y_limits=(-6, 6),                           # Límites Y ajustados al nuevo alto
-        text_bar_height=0.35,                       # Barras de texto más altas
-        text_padding=0.25,                          # Más padding para el texto
-        color_scheme=EnhancedGradientScheme(),      # Esquema de color personalizado
-    )
-
-
 def main():
     """
     Función principal que demuestra diferentes formas de crear y personalizar
@@ -142,7 +124,7 @@ def main():
     json_data = create_sample_json()
 
     # 2. Crear mapa mental con configuración personalizada
-    custom_mindmap = MindMap(config=create_custom_config())
+    custom_mindmap = MindMap()
     custom_mindmap.create_from_json(json_data)
 
     # 3. Guardar mapa mental resultante
@@ -151,7 +133,7 @@ def main():
     )
 
     # 4. Mostrar mapa mental interactivamente
-    custom_mindmap.show()
+    # custom_mindmap.show()
 
 
 if __name__ == "__main__":

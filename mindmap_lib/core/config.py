@@ -11,8 +11,8 @@ class MindMapConfig:
     width: int = 20
     height: int = 12
     dpi: int = 100
-    x_limits: tuple = (-1.0, 19.0)
-    y_limits: tuple = (-5.5, 5.5)
+    max_font_size = 14
+    min_font_size = 12
     text_bar_height: float = 0.3
     text_padding: float = 0.2
     color_scheme: ColorScheme = field(default_factory=lambda: GradientColorScheme({

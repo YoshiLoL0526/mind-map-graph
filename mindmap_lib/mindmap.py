@@ -27,8 +27,8 @@ class MindMap:
         self.fig = plt.figure(figsize=(self.config.width, self.config.height), 
                             dpi=self.config.dpi)
         self.ax = self.fig.add_subplot(111)
-        self.ax.set_xlim(*self.config.x_limits)
-        self.ax.set_ylim(*self.config.y_limits)
+        self.ax.set_xlim(auto=True)
+        self.ax.set_ylim(auto=True)
         self.ax.axis('off')
         
         # Adjusted margins
