@@ -1,59 +1,158 @@
-from mindmap import MindMap, MindMapConfig, ColorScheme
+import json
 
-# Define your mind map structure
-# Format: (root_text, [(child1_text, [grandchildren1]), (child2_text, [grandchildren2]), ...])
-mind_map_data = (
-    "Project Planning",
-    [
-        ("Research", [
-            ("Market Analysis", []),
-            ("Competitor Review", []),
-            ("User Surveys", [])
-        ]),
-        ("Design", [
-            ("Wireframes", []),
-            ("UI/UX", []),
-            ("Prototypes", [])
-        ]),
-        ("Development", [
-            ("Frontend", []),
-            ("Backend", []),
-            ("Testing", [])
-        ]),
-        ("Launch", [
-            ("Marketing", []),
-            ("Deployment", []),
-            ("Monitoring", [])
-        ])
-    ]
-)
+from mindmap_lib import MindMap
+from mindmap_lib.core import MindMapConfig
+from mindmap_lib.rendering import EnhancedGradientScheme
 
 
-class CustomColorScheme(ColorScheme):
-    def get_color(self, index: int, level: int) -> str:
-        # Your color logic here
-        colors = ['#8A4FFF', '#32B679', '#FF8C82', '#FFA726', '#4B7BF5']
-        return colors[index % len(colors)]
+def create_sample_json():
+    """
+    Crea un ejemplo de datos de mapa mental en formato JSON.
+    Este ejemplo representa un resumen sobre Python.
+    """
+    mind_map_data = {
+        "text": "Python",
+        "children": [
+            {
+                "text": "Core Features",
+                "children": [
+                    {
+                        "text": "Data Types",
+                        "children": [
+                            {"text": "Numbers", "children": [
+                                {"text": "Integer", "children": []},
+                                {"text": "Float", "children": []}
+                            ]},
+                            {"text": "Strings", "children": []},
+                            {"text": "Data Structures", "children": [
+                                {"text": "Lists", "children": []},
+                                {"text": "Dictionaries", "children": []},
+                                {"text": "Sets", "children": []},
+                                {"text": "Tuples", "children": []}
+                            ]}
+                        ],
+                    },
+                    {
+                        "text": "Control Flow",
+                        "children": [
+                            {"text": "Conditions", "children": [
+                                {"text": "if", "children": []},
+                                {"text": "elif", "children": []},
+                                {"text": "else", "children": []},
+                            ]},
+                            {"text": "Cycles", "children": [
+                                {"text": "for loops", "children": []},
+                                {"text": "while loops", "children": []}
+                            ]},
+                            {"text": "Exception handling", "children": [
+                                {"text": "try/except", "children": []},
+                            ]},
+                        ]
+                    },
+                    {
+                        "text": "Functions",
+                        "children": [
+                            {"text": "def keyword", "children": []},
+                            {"text": "lambda", "children": []},
+                            {"text": "arguments", "children": [
+                                {"text": "*args", "children": []},
+                                {"text": "**kwargs", "children": []},
+                            ]},
+                            {"text": "return values", "children": []},
+                        ],
+                    },
+                ],
+            },
+            {
+                "text": "Advanced Topics",
+                "children": [
+                    {
+                        "text": "OOP",
+                        "children": [
+                            {"text": "Classes", "children": []},
+                            {"text": "Inheritance", "children": []},
+                            {"text": "Polymorphism", "children": []},
+                            {"text": "Encapsulation", "children": []},
+                        ],
+                    },
+                    {
+                        "text": "Modules",
+                        "children": [
+                            {"text": "import", "children": []},
+                            {"text": "packages", "children": []},
+                            {"text": "pip", "children": []},
+                        ],
+                    },
+                ],
+            },
+            {
+                "text": "Libraries",
+                "children": [
+                    {
+                        "text": "Data Science",
+                        "children": [
+                            {"text": "NumPy", "children": []},
+                            {"text": "Pandas", "children": []},
+                            {"text": "Matplotlib", "children": []},
+                        ],
+                    },
+                    {
+                        "text": "Web",
+                        "children": [
+                            {"text": "Django", "children": []},
+                            {"text": "Flask", "children": []},
+                            {"text": "FastAPI", "children": []},
+                        ],
+                    },
+                    {
+                        "text": "Digital image processing",
+                        "children": [
+                            {"text": "OpenCV", "children": []}
+                        ],
+                    },
+                ],
+            },
+        ],
+    }
+    return json.dumps(mind_map_data, indent=2)
 
 
-# Create and customize the mind map
-config = MindMapConfig(
-    width=15,                         # Figure width in inches
-    height=10,                        # Figure height in inches
-    dpi=100,                          # Resolution
-    x_limits=(-0.5, 11.5),            # X-axis limits
-    y_limits=(-4.5, 4.5),             # Y-axis limits
-    text_bar_height=0.3,              # Height of node bars
-    text_padding=0.2,                 # Padding around text
-    color_scheme=CustomColorScheme()  # Custom color scheme
-)
+def create_custom_config():
+    """
+    Crea una configuración personalizada para el mapa mental.
+    """
+    return MindMapConfig(
+        width=24,                                   # Ancho mayor para más espacio
+        height=14,                                  # Alto mayor para más espacio
+        dpi=120,                                    # Mayor DPI para mejor resolución
+        x_limits=(-1.5, 22.5),                      # Límites X ajustados al nuevo ancho
+        y_limits=(-6, 6),                           # Límites Y ajustados al nuevo alto
+        text_bar_height=0.35,                       # Barras de texto más altas
+        text_padding=0.25,                          # Más padding para el texto
+        color_scheme=EnhancedGradientScheme(),      # Esquema de color personalizado
+    )
 
-# Create the mind map
-mind_map = MindMap(config)
-mind_map.create(mind_map_data)
 
-# Save to file
-mind_map.save("project_planning.png", bbox_inches='tight')
+def main():
+    """
+    Función principal que demuestra diferentes formas de crear y personalizar
+    mapas mentales.
+    """
+    # 1. Crear el JSON con los datos
+    json_data = create_sample_json()
 
-# Or display it
-mind_map.show()
+    # 2. Crear mapa mental con configuración personalizada
+    custom_mindmap = MindMap(config=create_custom_config())
+    custom_mindmap.create_from_json(json_data)
+
+    # 3. Guardar mapa mental resultante
+    custom_mindmap.save(
+        "example.png", bbox_inches="tight", pad_inches=0.1, dpi=150
+    )
+
+    # 4. Mostrar mapa mental interactivamente
+    custom_mindmap.show()
+
+
+if __name__ == "__main__":
+    main()
