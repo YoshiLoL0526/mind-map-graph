@@ -13,15 +13,9 @@ A flexible and customizable Python library for creating beautiful mind maps usin
 
 ## Installation
 
-1. Clone this repository:
+Install via pip:
 ```bash
-git clone https://github.com/YoshiLoL0526/python-mindmap.git
-cd python-mindmap
-```
-
-2. Install the required dependencies:
-```bash
-pip install matplotlib numpy
+pip install mindmap-lib
 ```
 
 ## Usage
@@ -73,7 +67,7 @@ mind_map = MindMap(config)
 mind_map.create(mind_map_data)
 
 # Save to file
-mind_map.save("project_planning.png", bbox_inches='tight')
+mind_map.save("example.png", bbox_inches='tight')
 
 # Or display it
 mind_map.show()
@@ -113,7 +107,7 @@ config = MindMapConfig(
 
 When you run the example code above, you'll get a mind map that looks like this:
 
-![Output example image](./project_planning.png)
+![Output example image](./example.png)
 
 ## API Reference
 
